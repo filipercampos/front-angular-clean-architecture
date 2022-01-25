@@ -1,0 +1,39 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2017",
+    "module": "es2020",
+    "lib": ["es2020", "dom"],
+    "emitDecoratorMetadata": true,
+    "typeRoots": ["node_modules/@types"],
+    "paths": {
+      "@environment/*": ["./src/environments/*", "./dist/src/environments/*"],
+      "@constants/*": ["./src/app/constants/*", "./dist/src/app/constants/*"],
+      "@data/*": ["./src/app/data/*", "./dist/app/data/*"],
+      "@domain/*": ["./src/app/domain/*", "./dist/app/domain/*"],
+      "@infra/*": ["./src/app/infra/*", "./dist/app/infra/*"],
+      "@shared/*": [".src/app/shared/*", "./dist/app/shared/*"],
+      "@presentation/*": ["./src/app/presentation/*", "./dist/app/presentation/*"]
+    }
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
+}
