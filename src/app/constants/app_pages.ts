@@ -1,5 +1,5 @@
 export const AppPages = {
-  HOME: 'home',
-  LOGIN: 'login',
-  DRIVERS: 'drivers',
+  HOME: '/home',
+  LOGIN: '/login',
+  DRIVERS: '/drivers',
 };

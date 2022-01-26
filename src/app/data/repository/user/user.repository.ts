@@ -6,7 +6,7 @@ import { IRepository } from '@data/interfaces/ibase.repository';
 import { PostMessage } from '@data/interfaces/post-reponse';
 import { ResponseMessage } from '@data/interfaces/response-message';
 import { UserEntity } from '@domain/entities/user-entity';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable()
 export class UserRepository extends BaseLocalRepository implements IRepository {
@@ -14,7 +14,14 @@ export class UserRepository extends BaseLocalRepository implements IRepository {
     super(httpCliente, ApiResources.USERS);
   }
   getById(id: number): Observable<UserEntity> {
-    return this.getByIdRequest(id);
+    return this.getByIdRequest(id).pipe(
+      map((item) => {
+        if (item) {
+          return item;
+        }
+        this.handleResponseRequest(item);
+      })
+    );
   }
   get(params: any): Observable<UserEntity> {
     return super.getRequest(params);

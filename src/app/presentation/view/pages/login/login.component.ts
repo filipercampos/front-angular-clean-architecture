@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { AppPages } from '@constants/app_pages';
+import { UserEntity } from '@domain/entities/user-entity';
+import { UserController } from '@presentation/controllers/user/user.controller';
 import { finalize } from 'rxjs/operators';
 import { AuthService } from 'src/app/infra/auth/auth.service';
-import { UserEntity } from '../../../../domain/entities/user-entity';
 import { NotificationService } from '../../shared/notification/notification.service';
-import { UserController } from './../../../controllers/user/user.controller';
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
   loginResponse(usuario: UserEntity) {
     if (usuario) {
       this.authService.credentials = usuario;
-      this.router.navigateByUrl('/home');
+      this.router.navigateByUrl(AppPages.HOME);
     } else {
       this.snackBar.open('Usuário ou senha inválidos.', undefined, {
         duration: 2000,

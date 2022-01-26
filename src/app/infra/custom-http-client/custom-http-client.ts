@@ -8,6 +8,7 @@ export class CustomHttpClient {
   }
   private readonly baseUrl: string;
   protected readonly ignoreInterceptor: boolean;
+  protected logRequest: boolean = true;
 
   public get<T>(
     path: string,
@@ -16,30 +17,35 @@ export class CustomHttpClient {
   ): Observable<any> {
     const p = this._createHttpParams(params);
     const h = this._createHttpHeaders(headers);
-    const options = {
+    const options: any = {
       params: p,
-      headers: h,
     };
+    options.headers = h;
+    this.handleLog(HttpRequestEnum.GET, path, undefined, headers);
     return this.httpClient.get<T>(`${this.baseUrl}/${path}`, options);
   }
   public post<T>(path: string, body?: any, headers?: any | HttpHeaders): Observable<any> {
+    this.handleLog(HttpRequestEnum.POST, path, body, headers);
     const h = this._createHttpHeaders(headers);
-    return this.httpClient.post<T>(`${this.baseUrl}/${path}`, body, { headers: h });
+    return this.httpClient.post<T>(`${this.baseUrl}/${path}`, body, h);
   }
 
   public put<T>(path: string, body?: any, headers?: any | HttpHeaders): Observable<any> {
+    this.handleLog(HttpRequestEnum.PUT, path, body, headers);
     const h = this._createHttpHeaders(headers);
-    return this.httpClient.put<T>(`${this.baseUrl}/${path}`, body, { headers: h });
+    return this.httpClient.put<T>(`${this.baseUrl}/${path}`, body, h);
   }
 
   public patch<T>(path: string, body?: any, headers?: any | HttpHeaders): Observable<any> {
+    this.handleLog(HttpRequestEnum.PATCH, path, body, headers);
     const h = this._createHttpHeaders(headers);
-    return this.httpClient.patch<T>(`${this.baseUrl}/${path}`, body, { headers: h });
+    return this.httpClient.patch<T>(`${this.baseUrl}/${path}`, body, h);
   }
 
-  public delete<T>(path: string, headers?: any | HttpHeaders): Observable<any> {
+  public delete<T>(path: string, body?: any, headers?: any | HttpHeaders): Observable<any> {
+    this.handleLog(HttpRequestEnum.DELETE, path, body, headers);
     const h = this._createHttpHeaders(headers);
-    return this.httpClient.delete<T>(`${this.baseUrl}/${path}`, { headers: h });
+    return this.httpClient.delete<T>(`${this.baseUrl}/${path}`, h);
   }
 
   public request<T>(
@@ -72,13 +78,29 @@ export class CustomHttpClient {
     }
     return params;
   }
-  private _createHttpHeaders(o: any) {
+  private _createHttpHeaders(o: any): any {
     if (!o) return;
     if (o instanceof HttpHeaders) return o;
     const params = new HttpHeaders();
     for (const [key, value] of Object.entries<any>(o)) {
       params.set(key, value);
     }
-    return params;
+    return { headers: params };
+  }
+  private handleLog(type: HttpRequestEnum, path: string, body: any, headers: any) {
+    if (this.logRequest == true) {
+      console.info(`Request ${HttpRequestEnum[type]}`);
+      console.info(`===============================================================`);
+      console.info(`${this.baseUrl}/${path}`);
+      console.info(`===============================================================`);
+      if (headers) {
+        console.info(`Headers : ${JSON.stringify(headers)}`);
+        console.info(`===============================================================`);
+      }
+      if (body) {
+        console.info(`Body : ${JSON.stringify(body)}`);
+        console.info(`===============================================================`);
+      }
+    }
   }
 }

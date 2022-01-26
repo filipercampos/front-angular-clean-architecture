@@ -1,26 +1,27 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiResources } from '@constants/api_resources';
-import { BaseLocalRepository } from '@data/base/base-local.repository';
+import { BaseRepository } from '@data/base/base.repository';
 import { AuthPostDto } from '@domain/dto/auth/auth-post.dto';
+import { environment } from '@environment/environment';
 import { map, Observable, of } from 'rxjs';
 
 @Injectable()
-export class AuthRepository extends BaseLocalRepository {
+export class AuthRepository extends BaseRepository {
   constructor(http: HttpClient) {
-    super(http, ApiResources.ACCESS_TOKEN);
+    super(http, environment.serverTestUrl, ApiResources.ACCESS_TOKEN);
   }
 
   /**
    * Get Access Token
    */
   postAccessToken(body: AuthPostDto): Observable<string> {
-    return this.customClient.get(ApiResources.ACCESS_TOKEN, body).pipe<any>(
+    return this.customClient.post(ApiResources.ACCESS_TOKEN, body).pipe<any>(
       map((item) => {
-        if (item && item[0].token) {
-          return item[0].token;
+        if (item.token) {
+          return item.token;
         }
-        throw Error(item.toString());
+        this.handleResponseRequest(item);
       })
     );
   }

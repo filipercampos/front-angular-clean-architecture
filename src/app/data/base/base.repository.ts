@@ -36,4 +36,8 @@ export abstract class BaseRepository {
   protected deleteRequest<T>(id?: number, headers?: any | HttpHeaders): Observable<any> {
     return this.customClient.delete<T>(`${this.basePath}/${id}`, headers);
   }
+  protected handleResponseRequest(data: any) {
+    console.error(`Request error response ${JSON.stringify(data)}`);
+    throw new Error(`Request error response invalid`);
+  }
 }

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
+import { AuthRepository } from '../../../data/repository/auth/auth.repository';
+import { UserRepository } from '../../../data/repository/user/user.repository';
 import { AuthPostDto } from '../../dto/auth/auth-post.dto';
 import { AuthValidator } from '../../validations/auth/auth.validator';
-import { AuthRepository } from './../../../data/repository/auth/auth.repository';
-import { UserRepository } from './../../../data/repository/user/user.repository';
 import { JwtUtil } from './../../../shared/utils/jwt.util';
 import { UserEntity } from './../../entities/user-entity';
 

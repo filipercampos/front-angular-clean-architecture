@@ -6,7 +6,7 @@ export class JwtUtil {
       if (!token) return null;
       return jwt_decode(token);
     } catch (err: any) {
-      console.log(`decodePayloadJWT ${err.message}`);
+      console.error(`decodePayloadJWT: ${err.message}`);
       return null;
     }
   }

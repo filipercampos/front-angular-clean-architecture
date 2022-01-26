@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/infra/auth/auth.service';
 import { UserEntity } from '../../../domain/entities/user-entity';
 import { UserController } from '../../controllers/user/user.controller';
+import { AppPages } from './../../../constants/app_pages';
 
 @Component({
   selector: 'app-base',
@@ -28,6 +29,6 @@ export class BaseComponent implements OnInit {
 
   responseLogout() {
     this.authService.credentials = null;
-    this.router.navigateByUrl('/login', { replaceUrl: true });
+    this.router.navigateByUrl(AppPages.LOGIN, { replaceUrl: true });
   }
 }

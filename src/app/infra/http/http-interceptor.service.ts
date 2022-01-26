@@ -11,6 +11,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ValidationError } from 'ts.validator.fluent/dist';
 import { AuthService } from '../auth/auth.service';
+import { AppPages } from './../../constants/app_pages';
 
 @Injectable({
   providedIn: 'root',
@@ -36,11 +37,20 @@ export class HttpInterceptorService implements HttpInterceptor {
     let errs: any[] = [];
 
     switch (response.status) {
+      case 0:
+        errs.push(
+          new ValidationError(
+            '',
+            '',
+            `<strong>503</strong>: Service Unvailable<br>${response.message}`
+          )
+        );
+        break;
       case 400:
-        console.log('Error', response.status);
+        console.log('errorHandler:', response.message);
         break;
       case 401:
-        this.router.navigateByUrl('/login', { replaceUrl: true });
+        this.router.navigateByUrl(AppPages.LOGIN, { replaceUrl: true });
         break;
       case 404:
         errs.push(

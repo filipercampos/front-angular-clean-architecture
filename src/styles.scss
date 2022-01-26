@@ -1,4 +1,19 @@
 @import 'node_modules/bootstrap/dist/css/bootstrap';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.blue-snackbar {
+  background: #2196f3;
+  color: white;
+}
+.red-snackbar {
+  background: red;
+  color: white;
+}

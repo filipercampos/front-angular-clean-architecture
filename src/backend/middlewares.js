@@ -1,7 +1,8 @@
 module.exports = (express, app) => {
   app.use(express.urlencoded({ limit: '5mb', extended: true }));
   app.use(express.json({ limit: '5mb' }));
-
+  const cors = require('cors');
+  app.use(cors());
   //handle auth api
   app.use(_verifyApiKey);
   //handle api error

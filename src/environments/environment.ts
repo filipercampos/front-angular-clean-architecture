@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   version: '1.0.0',
   serverUrl: 'http://localhost:3000',
+  serverTestUrl: 'http://localhost:3001',
   defaultLanguage: 'pt-BR',
   supportedLanguages: ['pt-BR'],
 };

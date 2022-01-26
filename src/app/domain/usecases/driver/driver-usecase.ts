@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { DriverRepository } from '@data/repository/driver/driver.repository';
 import { Observable, throwError } from 'rxjs';
-import { DriverRepository } from 'src/app/data/repository/driver/driver.repository';
 import { DriverEntity } from '../../entities/driver-entity';
 import { DriverValidator } from '../../validations/driver/driver-validator';
 
