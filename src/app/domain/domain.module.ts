@@ -13,10 +13,10 @@ import { DriverValidator } from './validations/driver/driver-validator';
   providers: [
     //validator
     { provide: IValidatorMessage, useClass: ValidatorMessageService },
-    AuthUsecase,
     AuthValidator, //validator
-    DriverUsecase,
     DriverValidator, //validator
+    AuthUsecase,
+    DriverUsecase,
   ],
 })
 export class DomainModule {}

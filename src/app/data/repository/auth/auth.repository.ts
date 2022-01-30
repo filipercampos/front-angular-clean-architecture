@@ -4,12 +4,12 @@ import { ApiResources } from '@constants/api_resources';
 import { BaseRepository } from '@data/base/base.repository';
 import { AuthPostDto } from '@domain/dto/auth/auth-post.dto';
 import { environment } from '@environment/environment';
-import { map, Observable, of } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable()
 export class AuthRepository extends BaseRepository {
   constructor(http: HttpClient) {
-    super(http, environment.serverTestUrl, ApiResources.ACCESS_TOKEN);
+    super(http, environment.serverAuthUrl, ApiResources.ACCESS_TOKEN);
   }
 
   /**
@@ -43,8 +43,16 @@ export class AuthRepository extends BaseRepository {
       })
     );
   }
-
-  logout(): Observable<boolean> {
-    return of(true);
+  /**
+   * Get Access Token
+   */
+  getTest() {
+    return this.customClient.get(
+      'test/1',
+      { params1: 'p-1' },
+      {
+        header1: 'h-zero',
+      }
+    );
   }
 }

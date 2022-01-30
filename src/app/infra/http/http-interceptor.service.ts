@@ -23,7 +23,7 @@ export class HttpInterceptorService implements HttpInterceptor {
     if (this.authService.credentials) {
       req = req.clone({
         setHeaders: {
-          Authorization: `Bearer ${this.authService.credentials.token}`,
+          'X-API-Key': `${this.authService.credentials.token}`,
         },
       });
 
@@ -35,34 +35,36 @@ export class HttpInterceptorService implements HttpInterceptor {
 
   private errorHandler(response: HttpErrorResponse): Observable<HttpEvent<any>> {
     let errs: any[] = [];
+    let message = response.message;
+    if (response.error.message) {
+      message = response.error.message;
+      errs.push(message);
+    } else {
+      errs.push(message);
+    }
+    console.error(`${HttpInterceptorService.name}: status ${response.status}\n${message}`);
 
     switch (response.status) {
       case 0:
-        errs.push(
-          new ValidationError(
-            '',
-            '',
-            `<strong>503</strong>: Service Unvailable<br>${response.message}`
-          )
-        );
+        errs.push(new ValidationError('', '', `<strong>Serviço indisponível</strong>`));
         break;
       case 400:
-        console.log('errorHandler:', response.message);
+        errs.push(new ValidationError('', '', `<strong>400</strong>: Bad Request<br> ${message}`));
         break;
       case 401:
+      case 403:
+        errs.push(new ValidationError('', '', `<strong>Unauthorized</strong><br>${message}`));
         this.router.navigateByUrl(AppPages.LOGIN, { replaceUrl: true });
         break;
       case 404:
-        errs.push(
-          new ValidationError('', '', '<strong>404</strong>: O recurso requisitado não existe.')
-        );
+        errs.push(new ValidationError('', '', `<strong>Not found</strong><br>${message}`));
         break;
       case 406:
       //handle
       case 409:
       //handle
       case 500:
-        console.log('Ocorreu um erro inesperado de servidor.');
+        errs.push(new ValidationError('', '', `<strong>${response.status}</strong><br>${message}`));
         break;
     }
 

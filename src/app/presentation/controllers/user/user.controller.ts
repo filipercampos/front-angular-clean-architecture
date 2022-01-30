@@ -8,7 +8,7 @@ import { AuthUsecase as AuthUsecase } from '../../../domain/usecases/auth/auth.u
   providedIn: 'root',
 })
 export class UserController {
-  constructor(private usecase: AuthUsecase) {}
+  constructor(public usecase: AuthUsecase) {}
 
   login(param: AuthPostDto): Observable<UserEntity> {
     return this.usecase.auth(param);

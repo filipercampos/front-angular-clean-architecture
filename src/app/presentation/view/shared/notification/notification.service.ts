@@ -13,17 +13,22 @@ export class NotificationService {
 
   constructor(private snackBar: MatSnackBar) {}
 
-  open(err: any): Observable<any> {
+  open(err: any, alert?: boolean): Observable<any> {
     const errs: string[] = [];
 
-    _.forEach(err, (x: ValidationError) => {
-      const msg = x.Message;
-      if (msg) errs.push(msg + '<br>');
-    });
+    if (typeof err == 'string') errs.push(err + '<br>');
+    else {
+      _.forEach(err, (x: ValidationError) => {
+        const msg = x.Message;
+        if (msg) errs.push(msg + '<br>');
+      });
+    }
 
     if (errs.length > 0 || err.message) {
-      errs.push(err.message);
-      this.snackBarRef = this.snackBar.openFromComponent(NotificationComponent, this.configError);
+      this.snackBarRef = this.snackBar.openFromComponent(
+        NotificationComponent,
+        alert ? this.configAlert : this.configError
+      );
     } else {
       this.snackBarRef = this.snackBar.openFromComponent(NotificationComponent, this.configSuccess);
     }
@@ -32,6 +37,7 @@ export class NotificationService {
 
     return this.snackBarRef.onAction();
   }
+
   private configSuccess: MatSnackBarConfig = {
     duration: 4000,
     panelClass: ['blue-snackbar'],
@@ -40,5 +46,10 @@ export class NotificationService {
   private configError: MatSnackBarConfig = {
     duration: 4000,
     panelClass: ['red-snackbar'],
+  };
+
+  private configAlert: MatSnackBarConfig = {
+    duration: 4000,
+    panelClass: ['yellow-snackbar'],
   };
 }

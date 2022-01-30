@@ -18,32 +18,32 @@ export class CustomHttpClient {
     const p = this._createHttpParams(params);
     const h = this._createHttpHeaders(headers);
     const options: any = {
+      ...h,
       params: p,
     };
-    options.headers = h;
-    this.handleLog(HttpRequestEnum.GET, path, undefined, headers);
+    this.handleLog(HttpRequestEnum.GET, path, undefined, params, headers);
     return this.httpClient.get<T>(`${this.baseUrl}/${path}`, options);
   }
   public post<T>(path: string, body?: any, headers?: any | HttpHeaders): Observable<any> {
-    this.handleLog(HttpRequestEnum.POST, path, body, headers);
+    this.handleLog(HttpRequestEnum.POST, path, body, undefined, headers);
     const h = this._createHttpHeaders(headers);
     return this.httpClient.post<T>(`${this.baseUrl}/${path}`, body, h);
   }
 
   public put<T>(path: string, body?: any, headers?: any | HttpHeaders): Observable<any> {
-    this.handleLog(HttpRequestEnum.PUT, path, body, headers);
+    this.handleLog(HttpRequestEnum.PUT, path, body, undefined, headers);
     const h = this._createHttpHeaders(headers);
     return this.httpClient.put<T>(`${this.baseUrl}/${path}`, body, h);
   }
 
   public patch<T>(path: string, body?: any, headers?: any | HttpHeaders): Observable<any> {
-    this.handleLog(HttpRequestEnum.PATCH, path, body, headers);
+    this.handleLog(HttpRequestEnum.PATCH, path, body, undefined, headers);
     const h = this._createHttpHeaders(headers);
     return this.httpClient.patch<T>(`${this.baseUrl}/${path}`, body, h);
   }
 
   public delete<T>(path: string, body?: any, headers?: any | HttpHeaders): Observable<any> {
-    this.handleLog(HttpRequestEnum.DELETE, path, body, headers);
+    this.handleLog(HttpRequestEnum.DELETE, path, body, undefined, headers);
     const h = this._createHttpHeaders(headers);
     return this.httpClient.delete<T>(`${this.baseUrl}/${path}`, h);
   }
@@ -72,27 +72,31 @@ export class CustomHttpClient {
   private _createHttpParams(o: any) {
     if (!o) return;
     if (o instanceof HttpParams) return o;
-    const params = new HttpParams();
+    let params = new HttpParams();
     for (const [key, value] of Object.entries<any>(o)) {
-      params.set(key, value);
+      params = params.append(key, value);
     }
     return params;
   }
   private _createHttpHeaders(o: any): any {
     if (!o) return;
     if (o instanceof HttpHeaders) return o;
-    const params = new HttpHeaders();
+    let params = new HttpHeaders();
     for (const [key, value] of Object.entries<any>(o)) {
-      params.set(key, value);
+      params = params.append(key, value + '');
     }
     return { headers: params };
   }
-  private handleLog(type: HttpRequestEnum, path: string, body: any, headers: any) {
+  private handleLog(type: HttpRequestEnum, path: string, body: any, params: any, headers: any) {
     if (this.logRequest == true) {
       console.info(`Request ${HttpRequestEnum[type]}`);
       console.info(`===============================================================`);
       console.info(`${this.baseUrl}/${path}`);
       console.info(`===============================================================`);
+      if (params) {
+        console.info(`Query : ${JSON.stringify(params)}`);
+        console.info(`===============================================================`);
+      }
       if (headers) {
         console.info(`Headers : ${JSON.stringify(headers)}`);
         console.info(`===============================================================`);

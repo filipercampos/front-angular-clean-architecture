@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { map, Observable, of, throwError } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { AuthRepository } from '../../../data/repository/auth/auth.repository';
 import { UserRepository } from '../../../data/repository/user/user.repository';
@@ -24,7 +24,12 @@ export class AuthUsecase {
       return this.repository.postAccessToken(param).pipe(
         mergeMap((token: string) => {
           const data = JwtUtil.decodePayloadJWT(token);
-          return this.userRepository.getById(data.id);
+          return this.userRepository.getById(data.id).pipe(
+            map((value) => {
+              value.token = token;
+              return value;
+            })
+          );
         })
       );
     } else {
@@ -32,7 +37,12 @@ export class AuthUsecase {
     }
   }
 
+  test() {
+    return this.repository.getTest();
+  }
+
   logout(): Observable<boolean> {
-    return this.repository.logout();
+    localStorage.removeItem('credentials');
+    return of(true);
   }
 }

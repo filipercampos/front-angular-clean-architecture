@@ -3,5 +3,5 @@ export const environment = {
   version: '1.0.0',
   serverUrl: 'http://localhost:3000',
   defaultLanguage: 'pt-BR',
-  supportedLanguages: ['pt-BR'],
+  supportedLanguages: ['pt-BR', 'en-US'],
 };

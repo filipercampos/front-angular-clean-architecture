@@ -7,9 +7,11 @@ import { PostMessage } from '@data/interfaces/post-reponse';
 import { ResponseMessage } from '@data/interfaces/response-message';
 import { UserEntity } from '@domain/entities/user-entity';
 import { map, Observable } from 'rxjs';
+import { UserMapper } from './user.mapper';
 
 @Injectable()
 export class UserRepository extends BaseLocalRepository implements IRepository {
+  private mapper = new UserMapper();
   constructor(httpCliente: HttpClient) {
     super(httpCliente, ApiResources.USERS);
   }

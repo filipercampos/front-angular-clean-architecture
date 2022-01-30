@@ -1,3 +1,5 @@
+const { verify } = require('./jwt.util');
+
 module.exports = (express, app) => {
   app.use(express.urlencoded({ limit: '5mb', extended: true }));
   app.use(express.json({ limit: '5mb' }));
@@ -19,13 +21,27 @@ function _handleErrorMiddleware(err, req, res, next) {
   };
   res.status(code).send(data);
 }
+
 function _verifyApiKey(req, res, next) {
-  const jwt = require('jsonwebtoken');
-  const secret = '1234';
   // Get auth header value
   const apiKey = req.headers['x-api-key'];
-  const public = ['/access-token', '/refresh-token', '/health'];
-
+  const public = ['/health', '/access-token', '/refresh-token'];
+  const callBack = (err, res, req, next, decoded) => {
+    if (err) {
+      req.tokenError = `Token ${err.message}`;
+      res.status(403).send({
+        statusCode: 403,
+        statusText: 'FORBIDDEN',
+        path: req.originalUrl,
+        message: req.tokenError,
+      });
+      return false;
+    } else {
+      // Save session in request
+      req.security = decoded;
+      return next();
+    }
+  };
   if (public.includes(req.originalUrl)) {
     return next();
   }
@@ -37,25 +53,9 @@ function _verifyApiKey(req, res, next) {
       return false;
     }
     // Verify token
-    jwt.verify(apiKey, secret, (err, decoded) => {
-      //invalid token (expired or other)
-      if (err) {
-        req.tokenError = `Token ${err.message}`;
-        return next('router');
-      } else {
-        // Save session in request
-        req.security = decoded;
-        next();
-      }
-    });
+    return verify(apiKey, req, res, next, callBack);
   } else {
     //token error
-    req.tokenError = 'Token is required. Access Denied';
-    res.status(401).send({
-      statusCode: 403,
-      statusText: 'FORBIDDEN',
-      path: req.originalUrl,
-      message: 'Token is required. Access Denied',
-    });
+    callBack(new Error('is required. Access Denied'), res, req, next);
   }
 }

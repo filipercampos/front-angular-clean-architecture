@@ -11,7 +11,7 @@ import { DriverMapper } from './driver.mapper';
 @Injectable()
 export class DriverRepository extends BaseLocalRepository implements IDialogController {
   private mapper = new DriverMapper();
-  constructor(private httpClient: HttpClient) {
+  constructor(httpClient: HttpClient) {
     super(httpClient, ApiResources.DRIVERS);
   }
   get(id?: number): Observable<DriverEntity> {

@@ -16,7 +16,6 @@ export class UserValidator {
   validateRules = (validator: IValidator<UserEntity>): ValidationResult => {
     return validator
       .Length((m) => m.username, 4, 10, this.validatorMessage.maximumSize('Usuário', '10'))
-      .Length((m) => m.password, 3, 10, this.validatorMessage.maximumSize('Senha', '10'))
       .ToResult();
   };
 }

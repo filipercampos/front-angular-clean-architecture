@@ -53,14 +53,18 @@ export class LoginComponent implements OnInit {
       });
   }
 
-  loginResponse(usuario: UserEntity) {
-    if (usuario) {
-      this.authService.credentials = usuario;
+  loginResponse(user: UserEntity) {
+    if (user && user.token) {
+      this.authService.credentials = user;
       this.router.navigateByUrl(AppPages.HOME);
     } else {
-      this.snackBar.open('Usuário ou senha inválidos.', undefined, {
-        duration: 2000,
-      });
+      if (user) {
+        this.notification.open('Sessão expirada', true);
+      } else {
+        this.snackBar.open('Usuário ou senha inválidos.', undefined, {
+          duration: 3000,
+        });
+      }
     }
   }
 }

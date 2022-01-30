@@ -6,7 +6,9 @@ import * as _ from 'lodash';
 import { finalize } from 'rxjs/operators';
 import { DriverEntity } from '../../../../domain/entities/driver-entity';
 import { DialogRegisterComponent } from '../../shared/dialogs/dialog-register/dialog-register.component';
+import { AuthUsecase } from './../../../../domain/usecases/auth/auth.usecase';
 import { DriverController } from './../../../controllers/driver/driver.controller';
+import { NotificationService } from './../../shared/notification/notification.service';
 
 @Component({
   selector: 'app-home',
@@ -22,11 +24,26 @@ export class HomeComponent implements OnInit {
   displayedColumns: string[] = ['name', 'phone', 'birth_date', 'documents', 'action'];
   dataSource: any;
 
-  constructor(private controller: DriverController, private dialog: MatDialog) {}
+  constructor(
+    private controller: DriverController,
+    private notification: NotificationService,
+    private useCase: AuthUsecase,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     // this.dataSource.paginator = this.paginator;
     this.getDrivers();
+    this.useCase
+      .test()
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        })
+      )
+      .subscribe({
+        error: (err: any) => this.notification.open(err),
+      });
   }
 
   getDrivers() {

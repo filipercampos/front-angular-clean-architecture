@@ -33,8 +33,6 @@ function userData(data) {
     username: 'test',
     password: '123',
     email: 'test@mail.com',
-    token:
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ0ZXN0Iiwic2VuaGEiOiIxMjMifQ.TJJ3WaWIVTOmjUCMZ39d33yKCjl068k0wNyK0_A86PI',
   });
 }
 
@@ -61,13 +59,12 @@ function driverData(data) {
       j++;
       month = now.getMonth() + j < 10 ? `0${now.getMonth() + j}` : now.getMonth() + j;
     }
-    const expires_at = `${now.getFullYear()}-${month}-${now.getDate()}T00:00:00+00:00`;
-    const birth_date = `${randomDate.getFullYear()}-${month}-${randomDate.getDate()}`;
-
+    const expires_at = new Date(now.getFullYear(), month, now.getDate());
+    const birth_date = new Date(randomDate.getFullYear(), month, randomDate.getDate());
     data.drivers.push({
       id: 1,
       name: `Motorista ${i}`,
-      birth_date: birth_date,
+      birth_date: birth_date.toISOString().split('T')[0],
       state: 'Minas Gerais',
       city: 'Belo Horizonte',
       enable: i % 2 == 0,
@@ -85,7 +82,7 @@ function driverData(data) {
       },
       documents: [
         {
-          expires_at: expires_at,
+          expires_at: expires_at.toISOString().split('T')[0],
           country: 'BR',
           number: i % 2 == 0 ? randomCpf : randomCnh,
           doc_type: i % 2 == 0 ? 'CPF' : 'CNH',
