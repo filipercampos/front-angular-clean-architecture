@@ -14,21 +14,20 @@ export class DriverRepository extends BaseLocalRepository implements IDialogCont
   constructor(httpClient: HttpClient) {
     super(httpClient, ApiResources.DRIVERS);
   }
-  get(id?: number): Observable<DriverEntity> {
-    if (id) {
-      return this.getByIdRequest(id).pipe(
-        map((item) => {
-          if (Array.isArray(item) && item[0]) {
-            return this.mapper.fromJson(item[0]);
-          }
-          return item;
-        })
-      );
-    } else {
-      return this.getRequest<DriverEntity[]>()
-        .pipe(mergeMap((item) => item))
-        .pipe(map(this.mapper.fromJson));
-    }
+  getById(id: number): Observable<DriverEntity> {
+    return this.getByIdRequest(id).pipe(
+      map((item) => {
+        if (Array.isArray(item) && item[0]) {
+          return this.mapper.fromJson(item[0]);
+        }
+        return item;
+      })
+    );
+  }
+  get(): Observable<DriverEntity> {
+    return this.getRequest<DriverEntity[]>()
+      .pipe(mergeMap((item) => item))
+      .pipe(map(this.mapper.fromJson));
   }
   insert(param: DriverEntity): Observable<DriverEntity> {
     return this.postRequest<DriverEntity>(param).pipe(map(this.mapper.fromJson));

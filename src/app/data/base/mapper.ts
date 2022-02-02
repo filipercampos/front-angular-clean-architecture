@@ -1,5 +1,3 @@
-export abstract class Mapper<O extends any, E> {
-  abstract fromJson(param: O): E;
-
-  abstract mapTo(param: O): E;
+export abstract class Mapper<T> {
+  abstract fromJson(param: any): T;
 }

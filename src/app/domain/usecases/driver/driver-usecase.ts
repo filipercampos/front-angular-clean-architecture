@@ -13,8 +13,11 @@ export class DriverUsecase {
     private driverValidator: DriverValidator
   ) {}
 
-  get(id?: number): Observable<DriverEntity> {
-    return this.motoristaRepository.get(id);
+  getById(id: number): Observable<DriverEntity> {
+    return this.motoristaRepository.getById(id);
+  }
+  get(): Observable<DriverEntity> {
+    return this.motoristaRepository.get();
   }
   insert(param: DriverEntity): Observable<DriverEntity> {
     const validator = this.driverValidator.validateFields(param);
@@ -22,7 +25,7 @@ export class DriverUsecase {
     if (validator.IsValid) {
       return this.motoristaRepository.insert(param);
     } else {
-      return throwError(validator.Errors);
+      return throwError(() => validator.Errors);
     }
   }
   update(param: DriverEntity): Observable<DriverEntity> {
@@ -31,7 +34,7 @@ export class DriverUsecase {
     if (validator.IsValid) {
       return this.motoristaRepository.update(param);
     } else {
-      return throwError(validator.Errors);
+      return throwError(() => validator.Errors);
     }
   }
   disableEnable(id: number, status: boolean): Observable<DriverEntity> {

@@ -9,8 +9,11 @@ import { DriverUsecase } from '../../../domain/usecases/driver/driver-usecase';
 export class DriverController {
   constructor(private usecaseService: DriverUsecase) {}
 
-  get(id?: number): Observable<DriverEntity> {
-    return this.usecaseService.get(id);
+  getById(id: number): Observable<DriverEntity> {
+    return this.usecaseService.getById(id);
+  }
+  get(): Observable<DriverEntity> {
+    return this.usecaseService.get();
   }
   insert(param: DriverEntity): Observable<DriverEntity> {
     return this.usecaseService.insert(param);

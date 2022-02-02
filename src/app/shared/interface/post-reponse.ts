@@ -1,4 +1,4 @@
 export interface PostMessage {
-  id: any;
+  id: string | number;
   message: string;
 }

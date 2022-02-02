@@ -56,10 +56,10 @@ export class HomeComponent implements OnInit {
           this.isLoading = false;
         })
       )
-      .subscribe((driver: DriverEntity | null) => {
-        this.drivers.push(driver ?? new DriverEntity());
+      .subscribe((driver: DriverEntity) => {
+        this.drivers.push(driver);
         this.dataSource = new MatTableDataSource(this.drivers);
-        this.dataSource.paginator = this.paginator; //NEW
+        this.dataSource.paginator = this.paginator;
       });
   }
 
