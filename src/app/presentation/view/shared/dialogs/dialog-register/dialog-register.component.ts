@@ -51,7 +51,7 @@ export class DialogRegisterComponent implements OnInit {
   createDocument(document?: DocumentEntity): FormGroup {
     return this.fb.group({
       number: [document ? document.number : '', Validators.required],
-      category: document ? document.category : Validators.maxLength(2),
+      category: document ? document.category : '',
       doc_type: [document ? document.doc_type : '', Validators.required],
       add_document: document ? true : false,
     });
@@ -96,7 +96,7 @@ export class DialogRegisterComponent implements OnInit {
       )
       .subscribe({
         next: (driver: DriverEntity) => this.dialogRef.close(driver),
-        error: (err) => this.notification.open(err),
+        error: (err) => this.notification.showError(err),
       });
   }
 
@@ -110,7 +110,7 @@ export class DialogRegisterComponent implements OnInit {
       )
       .subscribe({
         next: (driver: DriverEntity) => this.dialogRef.close(driver),
-        error: (err: any) => this.notification.open(err),
+        error: (err: any) => this.notification.showError(err),
       });
   }
 }

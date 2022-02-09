@@ -33,7 +33,7 @@ export abstract class BaseRepository {
   protected patchRequest<T>(id?: any, body?: any, headers?: any | HttpHeaders): Observable<any> {
     return this.customClient.patch<T>(`${this.basePath}/${id}`, body, headers);
   }
-  protected deleteRequest<T>(id?: number, headers?: any | HttpHeaders): Observable<any> {
+  protected deleteRequest<T>(id?: any, headers?: any | HttpHeaders): Observable<any> {
     return this.customClient.delete<T>(`${this.basePath}/${id}`, headers);
   }
   protected handleResponseRequest(data: any) {

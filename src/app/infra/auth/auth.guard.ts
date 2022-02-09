@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AppPages } from './../../constants/app_pages';
+import { AppPages } from '../../shared/constants/app_pages';
 import { AuthService } from './auth.service';
 
 @Injectable({

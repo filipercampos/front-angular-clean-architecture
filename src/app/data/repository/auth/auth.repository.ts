@@ -1,10 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ApiResources } from '@constants/api_resources';
 import { BaseRepository } from '@data/base/base.repository';
 import { AuthPostDto } from '@domain/dto/auth/auth-post.dto';
 import { environment } from '@environment/environment';
 import { map, Observable } from 'rxjs';
+import { ApiResources } from 'src/app/shared/constants/api_resources';
 
 @Injectable()
 export class AuthRepository extends BaseRepository {

@@ -13,9 +13,8 @@ export class NotificationService {
 
   constructor(private snackBar: MatSnackBar) {}
 
-  open(err: any, alert?: boolean): Observable<any> {
+  showError(err: any, style?: NotificationStyle): Observable<any> {
     const errs: string[] = [];
-
     if (typeof err == 'string') errs.push(err + '<br>');
     else {
       _.forEach(err, (x: ValidationError) => {
@@ -23,18 +22,29 @@ export class NotificationService {
         if (msg) errs.push(msg + '<br>');
       });
     }
-
-    if (errs.length > 0 || err.message) {
-      this.snackBarRef = this.snackBar.openFromComponent(
-        NotificationComponent,
-        alert ? this.configAlert : this.configError
-      );
-    } else {
-      this.snackBarRef = this.snackBar.openFromComponent(NotificationComponent, this.configSuccess);
-    }
-
+    this.snackBarRef = this.snackBar.openFromComponent(
+      NotificationComponent,
+      style ? this.configWarning : this.configError
+    );
     this.snackBarRef.instance.message = _.join(errs, ' ');
+    return this.snackBarRef.onAction();
+  }
 
+  showSnack(message: string, style?: NotificationStyle): Observable<any> {
+    let snackConfig = undefined;
+    switch (style) {
+      case NotificationStyle.SUCCESS:
+        snackConfig = this.configSuccess;
+        break;
+      case NotificationStyle.WARNING:
+        snackConfig = this.configWarning;
+        break;
+      case NotificationStyle.ERROR:
+        snackConfig = this.configError;
+        break;
+    }
+    this.snackBarRef = this.snackBar.openFromComponent(NotificationComponent, snackConfig);
+    this.snackBarRef.instance.message = message;
     return this.snackBarRef.onAction();
   }
 
@@ -48,8 +58,14 @@ export class NotificationService {
     panelClass: ['red-snackbar'],
   };
 
-  private configAlert: MatSnackBarConfig = {
+  private configWarning: MatSnackBarConfig = {
     duration: 4000,
     panelClass: ['yellow-snackbar'],
   };
+}
+export enum NotificationStyle {
+  DEFAULT = 0,
+  SUCCESS = 1,
+  WARNING = 2,
+  ERROR = 3,
 }

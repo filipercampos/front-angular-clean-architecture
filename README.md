@@ -2,15 +2,15 @@
 
 Um modelo inicial completo: exemplo de estrutura de aplicativo sob medida para escabilidade e boas praticas de desenvolvimento com Clean Code, SOLID, Clean Architecture e Orientação a Objetose código para cada coisa comum necessária em projetos corporativos, como testes de unidade, roteamento, autenticação, extensões de serviço HTTPS, suporte a i18n com alteração dinâmica de idioma e detecção automática de idioma do usuário
 
-## Começando
+## Get It Staret
 
-Baixe o repositório:
+Download repository:
 
 ```bash
-git clone https://github.com/leandro-mancini/angular-clean-architecture.git
+git clone https://github.com/filipercampos/front-angular-clean-architecture.git
 ```
 
-Dados de autenticação do usuário:
+Auth data:
 
 ***Usuário***: test
 <br>
@@ -30,49 +30,53 @@ npm install
 npm start
 ```
 
-3. Instalar o JSON Server:
+1. Install JSON Server:
 
 ```bash
 npm install -g json-server
 ```
 
-4. Abra um novo terminal e inicie o servidor JSON:
+4. New terminal and run JSON:
 
 ```bash
-npm run server
+npm run api
 ```
 
-### Estrutura do projeto
+### Project Struct
 
 ````
 | - app
-| | - core
-| | | - domain
-| | | | - [+] entity
-| | | - interfaces
-| | | | - [+] controllers
-| | | | - [+] entity
-| | | | - [+] message
-| | | | - [+] repository
-| | | | - [+] usecases
-| | | | - [+] validations
-| | | - [+] message
-| | | - [+] usecases
-| | | - core.module.ts
 | | - data
+| | | - [+] base
+| | | - [+] interfaces
 | | | - [+] repository
 | | | - data.module.ts
+| | - domain
+| | | - [+] dto
+| | | - [+] entities
+| | | - [+] interfaces
+| | | - [+] message
+| | | - [+] repository
+| | | - [+] usecases
+| | | - [+] validations
+| | | - domain.module.ts
 | | - infra
 | | | - [+] auth
+| | | - [+] custom-http-client
 | | | - [+] http
 | | | - [+] translations
 | | | - infra.module.ts
 | | - presentation
-| | | - [+] base
 | | | - [+] controllers
-| | | - [+] pages
-| | | - [+] shared
-| | | - presentation.module.ts
+| | | - [+] view
+| | | | - [+] pages
+| | | | - [+] shared
+| | | | - view.module.ts
+| | - presentation.module.ts
+| | - shared
+| | | - [+] constants
+| | | - [+] interface
+| | | - [+] utils
 ````
 
 ### Principais tarefas

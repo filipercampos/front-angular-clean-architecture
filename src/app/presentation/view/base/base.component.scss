@@ -8,7 +8,7 @@
 }
 
 .menu-card-header-image {
-  background-image: url('../../../../assets/images/img-avatar.jpg');
+  background-image: url('../../../../assets/images/img-avatar.png');
   background-size: cover;
   background-color: #ccc;
 }
@@ -19,4 +19,27 @@
       padding: 0;
     }
   }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.header a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.header .logo {
+  max-height: 56px;
+}
+
+.header .title-group {
+  padding-left: 25px;
+}
+
+.header .title-group i {
+  padding-right: 25px;
 }

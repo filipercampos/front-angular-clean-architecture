@@ -22,7 +22,7 @@
     "typeRoots": ["node_modules/@types"],
     "paths": {
       "@environment/*": ["./src/environments/*", "./dist/src/environments/*"],
-      "@constants/*": ["./src/app/constants/*", "./dist/src/app/constants/*"],
+      "@constants/*": ["src/app/shared/constants/*", "./dist/src/app/constants/*"],
       "@data/*": ["./src/app/data/*", "./dist/app/data/*"],
       "@domain/*": ["./src/app/domain/*", "./dist/app/domain/*"],
       "@infra/*": ["./src/app/infra/*", "./dist/app/infra/*"],

@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ApiResources } from '@constants/api_resources';
 import { BaseLocalRepository as BaseLocalRepository } from '@data/base/base-local.repository';
 import { IRepository } from '@data/interfaces/ibase.repository';
 import { UserEntity } from '@domain/entities/user-entity';
 import { map, mergeMap, Observable } from 'rxjs';
+import { ApiResources } from 'src/app/shared/constants/api_resources';
 import { PostMessage } from 'src/app/shared/interface/post-reponse';
 import { ResponseMessage } from 'src/app/shared/interface/response-message';
 import { UserMapper } from './user.mapper';
@@ -16,15 +16,7 @@ export class UserRepository extends BaseLocalRepository implements IRepository {
     super(httpCliente, ApiResources.USERS);
   }
   getById(id: number): Observable<UserEntity> {
-    return this.getByIdRequest(id).pipe(
-      map((value) => {
-        if (Array.isArray(value) && value[0]) {
-          return this.mapper.fromJson(value[0]);
-        }
-        this.handleResponseRequest(value);
-        return value;
-      })
-    );
+    return this.getByIdRequest(id).pipe(map(this.mapper.fromJson));
   }
   get(): Observable<UserEntity> {
     return this.getRequest<UserEntity[]>()

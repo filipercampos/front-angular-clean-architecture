@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ApiResources } from '@constants/api_resources';
 import { BaseLocalRepository } from '@data/base/base-local.repository';
 import { DriverEntity } from '@domain/entities/driver-entity';
 import { IDialogController } from '@domain/interfaces/idialog-controller';
 import { Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
+import { ApiResources } from 'src/app/shared/constants/api_resources';
 import { DriverMapper } from './driver.mapper';
 
 @Injectable()
@@ -37,5 +37,8 @@ export class DriverRepository extends BaseLocalRepository implements IDialogCont
   }
   disableEnable(id: number, status: boolean): Observable<DriverEntity> {
     return this.patchRequest(id, { enable: status }).pipe(map(this.mapper.fromJson));
+  }
+  delete(item: DriverEntity): Observable<void> {
+    return this.deleteRequest(item.id);
   }
 }

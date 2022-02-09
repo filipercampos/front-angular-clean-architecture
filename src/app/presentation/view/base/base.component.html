@@ -1,10 +1,24 @@
+<app-nav></app-nav>
+<app-footer></app-footer>
 <mat-toolbar color="primary">
   <mat-toolbar-row class="justify-content-between">
-    <span>{{ 'TXT_MOTORISTAS' | translate }}</span>
+    <div class="header">
+      <span>
+        <a><img class="logo" src="assets/images/angular.png" alt="logo"></a>
+      </span>
+      <span class="title-group">
+        <a>
+          <i class="material-icons">build</i>
+          {{ 'APP_NAME' | translate }}
+        </a>
+      </span>
+    </div>
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>account_circle</mat-icon>
     </button>
+
   </mat-toolbar-row>
+
 </mat-toolbar>
 
 <mat-menu #menu="matMenu" class="menu-user">

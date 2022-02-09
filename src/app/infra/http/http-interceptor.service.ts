@@ -10,8 +10,8 @@ import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ValidationError } from 'ts.validator.fluent/dist';
+import { AppPages } from '../../shared/constants/app_pages';
 import { AuthService } from '../auth/auth.service';
-import { AppPages } from './../../constants/app_pages';
 
 @Injectable({
   providedIn: 'root',

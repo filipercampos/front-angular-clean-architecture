@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/infra/auth/auth.service';
 import { UserEntity } from '../../../domain/entities/user-entity';
+import { AppPages } from '../../../shared/constants/app_pages';
 import { UserController } from '../../controllers/user/user.controller';
-import { AppPages } from './../../../constants/app_pages';
 
 @Component({
   selector: 'app-base',

@@ -2,12 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { AppPages } from '@constants/app_pages';
 import { UserEntity } from '@domain/entities/user-entity';
 import { UserController } from '@presentation/controllers/user/user.controller';
 import { finalize } from 'rxjs/operators';
 import { AuthService } from 'src/app/infra/auth/auth.service';
-import { NotificationService } from '../../shared/notification/notification.service';
+import { AppPages } from 'src/app/shared/constants/app_pages';
+import {
+  NotificationService,
+  NotificationStyle,
+} from '../../shared/notification/notification.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -49,7 +52,7 @@ export class LoginComponent implements OnInit {
       )
       .subscribe({
         next: (usuario: UserEntity) => this.loginResponse(usuario),
-        error: (err: any) => this.notification.open(err),
+        error: (err: any) => this.notification.showError(err),
       });
   }
 
@@ -59,7 +62,7 @@ export class LoginComponent implements OnInit {
       this.router.navigateByUrl(AppPages.HOME);
     } else {
       if (user) {
-        this.notification.open('Sessão expirada', true);
+        this.notification.showSnack('Sessão expirada', NotificationStyle.WARNING);
       } else {
         this.snackBar.open('Usuário ou senha inválidos.', undefined, {
           duration: 3000,

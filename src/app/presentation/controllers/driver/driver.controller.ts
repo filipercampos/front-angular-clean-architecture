@@ -21,6 +21,9 @@ export class DriverController {
   update(param: DriverEntity): Observable<DriverEntity> {
     return this.usecaseService.update(param);
   }
+  delete(item: DriverEntity): Observable<void> {
+    return this.usecaseService.delete(item);
+  }
   disableEnable(id: number, status: boolean): Observable<DriverEntity> {
     return this.usecaseService.disableEnable(id, status);
   }
